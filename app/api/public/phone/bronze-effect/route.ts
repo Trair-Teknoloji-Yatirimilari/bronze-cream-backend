@@ -237,7 +237,7 @@ async function applyTexturePreservation(
                 // Normalize brush'ı gerçek image boyutlarına scale et  
                 const normalizedBrush = point.brush || 0.04;
                 const brushSize = Math.round(normalizedBrush * Math.min(width, height));
-                const actualBrushSize = Math.max(8, Math.min(80, brushSize));
+                const actualBrushSize = Math.max(40, Math.min(120, brushSize * 4));
 
                 for (let dy = -actualBrushSize; dy <= actualBrushSize; dy += 1) {
                     for (let dx = -actualBrushSize; dx <= actualBrushSize; dx += 1) {
@@ -262,7 +262,7 @@ async function applyTexturePreservation(
                 const originalPixel = [data[idx], data[idx + 1], data[idx + 2]];
 
                 // Doku koruması için orijinal piksel değerlerini kullan
-                const textureFactor = 0.4; // 0.8'den 0.4'e düşürdüm - daha güçlü efekt için
+                const textureFactor = 0.55; // 0.8'den 0.4'e düşürdüm - daha güçlü efekt için
                 const newColor = blendColors(originalPixel, blendedColor, textureFactor);
 
                 data[idx] = newColor[0];
@@ -279,7 +279,7 @@ async function applyTexturePreservation(
             height: height,
             channels: 4
         }
-    }).png().toBuffer();
+    }).blur(1).png().toBuffer();
 }
 
 // HEX renk kodunu RGB diziye çevir
@@ -568,7 +568,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<ProcessRe
                     // Normalize brush'ı gerçek image boyutlarına scale et
                     const normalizedBrush = point.brush || 0.04; // Default %4 of image size
                     const brushSize = Math.round(normalizedBrush * Math.min(width, height));
-                    const actualBrushSize = Math.max(8, Math.min(80, brushSize)); // 8-80 piksel arası sınırla
+                    const actualBrushSize = Math.max(40, Math.min(120, brushSize * 4)); // 8-80 piksel arası sınırla
 
                     if (index < 3) {
                         console.log(`- Brush ${index}: normalized=${normalizedBrush.toFixed(4)} -> scaled=${actualBrushSize}px`);
@@ -612,12 +612,12 @@ export async function POST(request: NextRequest): Promise<NextResponse<ProcessRe
         console.log('Renk analizi tamamlandı');
 
         // Ürün rengi ile kombinle
-        let productColor: number[] = [255, 200, 150]; // Varsayılan bronz rengi
+        let productColor: number[] = [180, 120, 70]; // Varsayılan bronz rengi
         if (selectedProduct && typeof selectedProduct.filterColor === 'string') {
             const rgb = hexToRgb(selectedProduct.filterColor);
             if (rgb) productColor = rgb;
         }
-        const blendedColor = blendColors(mostFrequentColor, productColor, 0.5);
+        const blendedColor = blendColors(mostFrequentColor, productColor, 0.6);
 
         console.log('Doku koruması uygulanıyor');
         // Doku koruması uygula
