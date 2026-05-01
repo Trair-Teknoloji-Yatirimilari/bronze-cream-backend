@@ -1,0 +1,2 @@
+//TODO: /api/dashboard/admins/dev klasörü silinecek.
+//TODO: .env degiskenleri duzenlenecek

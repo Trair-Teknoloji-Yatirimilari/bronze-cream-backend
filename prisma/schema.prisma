@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String        @id @default(uuid())
+  userIP         String?
+  userAgent      String?
+  isBanned       Boolean       @default(false)
+  pushToken      String?       @unique
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  appVersion     String?
+  buildNumber    String?
+  bundleId       String?
+  deviceBrand    String?
+  deviceId       String?
+  deviceName     String?
+  deviceType     String?
+  isEmulator     Boolean?
+  isTablet       Boolean?
+  systemName     String?
+  systemVersion  String?
+  uniqueId       String?       @unique
+  UploadLogs     UploadLogs[]
+  uploadedImages UploadedImg[]
+}
+
+model UploadedImg {
+  id         String       @id @default(uuid())
+  url        String
+  userId     String
+  isPublic   Boolean      @default(false)
+  isDeleted  Boolean      @default(false)
+  isHidden   Boolean      @default(false)
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  productId  String
+  UploadLogs UploadLogs[]
+  product    Products     @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user       User         @relation(fields: [userId], references: [id])
+}
+
+model UploadLogs {
+  id            String       @id @default(uuid())
+  userIp        String
+  userAgent     String
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  userId        String
+  uploadedImgId String?
+  productId     String
+  product       Products     @relation(fields: [productId], references: [id], onDelete: Cascade)
+  uploadedImg   UploadedImg? @relation(fields: [uploadedImgId], references: [id])
+  user          User         @relation(fields: [userId], references: [id])
+}
+
+model Admins {
+  id                String             @id @default(uuid())
+  email             String             @unique
+  password          String
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  NotificationLogs  NotificationLogs[]
+}
+
+model Products {
+  id             String        @id @default(uuid())
+  name           String
+  description    String
+  price          Float
+  imageUrl       String
+  link           String
+  isActive       Boolean       @default(true)
+  isTrending     Boolean       @default(false)
+  isSoldOut      Boolean       @default(false)
+  isPopular      Boolean       @default(false)
+  hasFilterEvent Boolean       @default(false)
+  filterColor    String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  intensity      Float         @default(1.0)
+  filterType     String        @default("Color")
+  UploadLogs     UploadLogs[]
+  UploadedImg    UploadedImg[]
+}
+
+model NotificationLogs {
+  id            String   @id @default(uuid())
+  title         String
+  body          String
+  targetType    String   // "all" veya "specific"
+  targetCount   Int      // Hedeflenen kullanıcı sayısı
+  sentCount     Int      // Gönderilen bildirim sayısı
+  successCount  Int      // Başarılı bildirim sayısı
+  errorCount    Int      // Hatalı bildirim sayısı
+  adminId       String
+  customData    String?  // JSON string
+  createdAt     DateTime @default(now())
+  admin         Admins   @relation(fields: [adminId], references: [id])
+}
