@@ -292,16 +292,12 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
           </form>
 
           <div className=" relative hidden md:block">
-            <img
-              src="/welcome-bg.png"
-              alt="Welcome"
-              className="absolute inset-0 h-full w-full object-cover "
-            />
+            <div className="absolute inset-0 bg-gradient-to-br from-amber-100 via-yellow-50 to-white" />
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-center text-white space-y-4 p-8">
-                <h2 className="text-2xl font-bold">Bronzify</h2>
-                <p className="text-lg opacity-90">
-                  Profesyonel Yönetim Sistemi
+              <div className="text-center text-neutral-800 space-y-4 p-8">
+                <h2 className="text-2xl font-bold">Born To Bronze</h2>
+                <p className="text-lg opacity-80">
+                  Yönetim Paneli — Eda Taşpınar
                 </p>
               </div>
             </div>
