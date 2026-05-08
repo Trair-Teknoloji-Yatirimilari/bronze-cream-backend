@@ -188,22 +188,28 @@ export default function PrivacyPolicyPage() {
       </p>
 
       <h3 style={h3Style}>
-        2.5 Where in this policy is face data handling described?
+        2.5 User controls and where face data handling is described
       </h3>
       <p style={pStyle}>
         The full description of collection, use, disclosure, sharing and
         retention of face data is in <strong>Section 2 (Face Data)</strong> of
-        this document, specifically subsections 2.1 through 2.4.
+        this document, specifically subsections 2.1 through 2.5. You can
+        revoke camera access at any time from your device’s Settings app,
+        which immediately stops any face contour processing by the App.
       </p>
 
       <div style={calloutStyle}>
         <strong>Quote from policy (for App Review):</strong>{" "}
-        “Born To Bronze performs real-time face contour detection on the live
-        camera preview or a photo chosen by the user, entirely on-device. The
-        resulting contour points exist only in volatile memory for the
-        duration of a single frame and are used solely to clip the virtual
-        tanning filter to skin regions. No face data is uploaded, shared with
-        third parties, or persisted to storage.”
+        “Born To Bronze performs real-time face contour detection entirely on
+        the device, either on the live camera preview or on a photo chosen by
+        the user. The Google ML Kit Face Detection library is used to obtain
+        2D (x, y) coordinates representing the face outline, eye, eyebrow, and
+        lip regions. These coordinates exist only in volatile memory for the
+        duration of a single frame (approximately 50 ms) and are overwritten
+        when the next frame is processed. This data is used solely to clip
+        the tanning filter to skin regions. Face data is never transmitted
+        to any third party, uploaded to our servers, written to disk, or
+        retained for backup or analytics purposes.”
       </div>
 
       {/* 3. Camera & Photo Library */}
