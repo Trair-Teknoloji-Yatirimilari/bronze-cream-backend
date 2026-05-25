@@ -134,6 +134,14 @@ export default function PrivacyPolicyPage() {
         face data.
       </p>
 
+      <p style={{ ...pStyle, fontStyle: "italic", background: "#FFF8E7", border: "1px solid #F4E1A1", borderRadius: "8px", padding: "12px 14px" }}>
+        Important note: The features named “Real Time Face Effect” and “Skin
+        Effect” inside the app are visual color filters only. They do not
+        perform face recognition, biometric identification, or any medical or
+        dermatological skin analysis. The App does not collect, derive, or
+        store any such data.
+      </p>
+
       <h3 style={h3Style}>2.1 What face data does the app collect?</h3>
       <p style={pStyle}>
         The App performs <strong>real-time face contour detection</strong> on
