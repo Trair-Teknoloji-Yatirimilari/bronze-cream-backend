@@ -41,8 +41,7 @@ function mapToRecentPhotos(item: UploadedImg & { user: User | null, product: Pro
 
   return {
       id: item.id,
-      img: item.url.startsWith("http") ? item.url : item.url.startsWith("/") ? item.url
-        : `/filtered/${item.url}`,
+      img: item.url.startsWith("http") ? item.url : `https://bronze-api.trair.com.tr${item.url.startsWith("/") ? item.url : `/filtered/${item.url}`}`,
       device: deviceInfo,
       productName: item.product?.name || null,
       productId: item.productId || null,
