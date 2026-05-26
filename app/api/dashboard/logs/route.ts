@@ -41,27 +41,15 @@ function mapToLogs(item: LogWithRelations) {
   // Device bilgilerini işle
   const user = item.user;
   const deviceBrand = user?.deviceBrand || null;
-  const deviceModel = user?.deviceId || null; // deviceId aslında model bilgisi (iPhone12,1, SM-G991B vs.)
+  const deviceModel = user?.deviceId || null;
   const systemInfo = user?.systemName && user?.systemVersion 
     ? `${user.systemName} ${user.systemVersion}` 
     : null;
 
-  // 🔍 DEBUG: Logs API Device Info
-  console.log("🔍 DEBUG - Logs API Device Info:", {
-    logId: item.id?.substring(0, 8),
-    userId: user?.id?.substring(0, 8),
-    deviceBrand: user?.deviceBrand,
-    deviceId: user?.deviceId,
-    systemName: user?.systemName,
-    userAgent: item.userAgent?.substring(0, 50)
-  });
-
   // Device bilgisini doğru şekilde belirle
   let deviceInfo = "Diğer";
   
-  // Önce gerçek device bilgilerini kontrol et
   if (user?.deviceBrand || user?.systemName) {
-    // En az bir device bilgisi varsa onu kullan
     if (user.deviceBrand && user.systemName) {
       deviceInfo = `${user.deviceBrand} (${user.systemName})`;
     } else if (user.deviceBrand) {
@@ -69,18 +57,13 @@ function mapToLogs(item: LogWithRelations) {
     } else if (user.systemName) {
       deviceInfo = user.systemName;
     }
-    console.log("✅ Logs API Device Found:", deviceInfo);
   } else if (item.userAgent) {
-    // Fallback: userAgent'dan çıkarsama yap
     const userAgent = item.userAgent.toLowerCase();
     if (userAgent.includes("android") || userAgent.includes("okhttp")) {
       deviceInfo = "Android";
     } else if (userAgent.includes("iphone") || userAgent.includes("ios") || userAgent.includes("cfnetwork")) {
       deviceInfo = "iOS";
     }
-    console.log("⚠️ Logs API Fallback:", deviceInfo);
-  } else {
-    console.log("❌ Logs API No Device Info");
   }
 
   return {

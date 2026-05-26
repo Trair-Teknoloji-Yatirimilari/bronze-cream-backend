@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { Prisma } from "@/lib/generated/prisma";
+import { withAuth } from "@/lib/authMiddleware";
 
-export async function GET(req: NextRequest) {
+export const GET = withAuth(async (req: NextRequest) => {
   try {
     const { searchParams } = new URL(req.url);
     const page = Math.max(1, parseInt(searchParams.get("page") || "1", 10));
@@ -73,4 +74,4 @@ export async function GET(req: NextRequest) {
     console.error("/api/dashboard/recent-photos GET error:", error);
     return NextResponse.json({ error: "Bir hata oluştu" }, { status: 500 });
   }
-}
+});

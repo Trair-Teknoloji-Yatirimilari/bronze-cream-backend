@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
     
     // Rate limit kontrolü
     if (!checkRateLimit(ip)) {
-      console.log(`API: Rate limit exceeded for IP: ${ip}`);
+      console.warn(`Rate limit exceeded for IP: ${ip}`);
       return NextResponse.json(
         { error: "Çok fazla başarısız deneme. 15 dakika sonra tekrar deneyin.", success: false },
         { status: 429 }
@@ -50,8 +50,6 @@ export async function POST(request: NextRequest) {
     }
 
     const { email, password } = await request.json();
-    
-    console.log("API: Login attempt for:", email);
     
     if (!email || !password) {
       return NextResponse.json(
@@ -72,14 +70,10 @@ export async function POST(request: NextRequest) {
     const user = await prisma.admins.findUnique({
       where: { email },
     });
-    
-    console.log("API: User found:", !!user);
 
     const cryptedPassword = CryptoJS.SHA256(password).toString();
-    console.log("API: Password hashed");
 
     if (!user || user.password !== cryptedPassword) {
-      console.log("API: Invalid credentials");
       return NextResponse.json(
         { error: "Geçersiz email veya şifre", success: false },
         { status: 401 }
@@ -99,15 +93,12 @@ export async function POST(request: NextRequest) {
     const cookieStore = await cookies();
     cookieStore.set("token", token, {
       httpOnly: true,
-      secure: false, // IP erişimi için false
-      maxAge: 60 * 60, // 1 saat
+      secure: false,
+      maxAge: 60 * 60,
       path: "/",
-      sameSite: "lax", // IP erişimi için daha esnek
+      sameSite: "lax",
     });
 
-    console.log("API: Login successful, token set in cookie");
-    
-    // Response'a cookie'yi de ekle (debug için)
     const response = NextResponse.json(
       { error: null, success: true, message: "Giriş başarılı" },
       { status: 200 }
@@ -125,7 +116,7 @@ export async function POST(request: NextRequest) {
     return response;
 
   } catch (error) {
-    console.log("API: Catch block error:", error);
+    console.error("Login API error:", error);
     return NextResponse.json(
       { 
         error: "Sunucu ile alakalı bir sorun oluştu lütfen daha sonra tekrar deneyiniz",

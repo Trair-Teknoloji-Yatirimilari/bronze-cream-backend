@@ -6,22 +6,11 @@ import { withAuth, validateInput, rateLimit } from "@/lib/authMiddleware";
 const PAGE_SIZE = 10;
 
 function mapToUsers(item: User & { uploadedImagesCount: number }) {
-  // 🔍 DEBUG: Database'den gelen device bilgilerini logla
-  console.log("🔍 DEBUG - Database Device Info:", {
-    id: item.id?.substring(0, 8),
-    deviceBrand: item.deviceBrand,
-    systemName: item.systemName,
-    deviceId: item.deviceId,
-    deviceName: item.deviceName,
-    userAgent: item.userAgent?.substring(0, 50)
-  });
-
   // Device bilgisini doğru şekilde belirle
   let deviceInfo = "Diğer";
   
   // Önce gerçek device bilgilerini kontrol et
   if (item.deviceBrand || item.systemName) {
-    // En az bir device bilgisi varsa onu kullan
     if (item.deviceBrand && item.systemName) {
       deviceInfo = `${item.deviceBrand} (${item.systemName})`;
     } else if (item.deviceBrand) {
@@ -29,18 +18,13 @@ function mapToUsers(item: User & { uploadedImagesCount: number }) {
     } else if (item.systemName) {
       deviceInfo = item.systemName;
     }
-    console.log("✅ Device Info Found:", deviceInfo);
   } else if (item.userAgent) {
-    // Fallback: userAgent'dan çıkarsama yap
     const userAgent = item.userAgent.toLowerCase();
     if (userAgent.includes("android") || userAgent.includes("okhttp")) {
       deviceInfo = "Android";
     } else if (userAgent.includes("iphone") || userAgent.includes("ios") || userAgent.includes("cfnetwork")) {
       deviceInfo = "iOS";
     }
-    console.log("⚠️ Fallback to UserAgent:", deviceInfo);
-  } else {
-    console.log("❌ No Device Info Available");
   }
 
   return {

@@ -3,6 +3,7 @@ import * as React from "react";
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -14,6 +15,7 @@ import {
 } from "@/components/ui/sidebar";
 import Image from "next/image";
 import { headers } from "next/headers";
+import { LogoutButton } from "@/components/logout-button";
 
 
 
@@ -22,7 +24,6 @@ export async function AppSidebar({
 }: React.ComponentProps<typeof Sidebar>) {
   const headerList = await headers();
   const pathname = headerList.get("x-current-path");
-  console.log(pathname, "pathname");
 
   const items = [
     {
@@ -86,6 +87,9 @@ export async function AppSidebar({
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter className="p-4">
+        <LogoutButton />
+      </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   );

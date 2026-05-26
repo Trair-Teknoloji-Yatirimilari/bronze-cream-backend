@@ -39,32 +39,17 @@ function mapToUploads(item: UploadWithUser) {
     ? `${user.systemName} ${user.systemVersion}`
     : null;
 
-  // 🔍 DEBUG: Uploads API Device Info
-  console.log("🔍 DEBUG - Uploads API Device Info:", {
-    uploadId: item.id?.substring(0, 8),
-    userId: user?.id?.substring(0, 8),
-    deviceBrand: user?.deviceBrand,
-    systemName: user?.systemName,
-    userAgent: user?.userAgent?.substring(0, 50)
-  });
-
   // Device bilgisini önce gerçek device info'dan belirle
   let deviceInfo = "Bilinmiyor";
   if (user?.deviceBrand && user?.systemName) {
-    // Gerçek device bilgisi varsa onu kullan
     deviceInfo = `${user.deviceBrand} (${user.systemName})`;
-    console.log("✅ Uploads API Device Found:", deviceInfo);
   } else if (user?.userAgent) {
-    // Fallback: userAgent'dan çıkarsama yap
     const userAgent = user.userAgent.toLowerCase();
     if (userAgent.includes("android")) {
       deviceInfo = "Android";
     } else if (userAgent.includes("iphone") || userAgent.includes("ios")) {
       deviceInfo = "iOS";
     }
-    console.log("⚠️ Uploads API Fallback:", deviceInfo);
-  } else {
-    console.log("❌ Uploads API No Device Info");
   }
 
   return {

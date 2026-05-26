@@ -27,9 +27,7 @@ export default async function DashboardLayout({
 }) {
   const cookieStore = await cookies();
   const token = cookieStore.get("token");
-  console.log("Dashboard: Token check -", token ? "Found" : "Not found");
   if (!token) {
-    console.log("Dashboard: No token, redirecting to login");
     redirect("/");
   }
   const decodedToken = await decrypt(token.value);
@@ -39,7 +37,6 @@ export default async function DashboardLayout({
 
   const headerList = await headers();
   const pathname = headerList.get("x-current-path");
-  console.log(pathname, "pathname");
 
   const breadcrumbTitle = pathname?.split("/").pop();
   let breadcrumbTitleText = "";
@@ -53,7 +50,17 @@ export default async function DashboardLayout({
     case "logs":
       breadcrumbTitleText = "Kullanım Raporları";
       break;
+    case "recent-photos":
+      breadcrumbTitleText = "Yüklenen Fotoğraflar";
+      break;
+    case "products":
+      breadcrumbTitleText = "Ürünler";
+      break;
+    case "notifications":
+      breadcrumbTitleText = "Bildirimler";
+      break;
     default:
+      breadcrumbTitleText = "Dashboard";
   }
 
   return (
