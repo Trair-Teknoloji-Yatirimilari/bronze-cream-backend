@@ -48,6 +48,11 @@ export default function RecentPhotosTableClient({
   const [error, setError] = useState<string | null>(null);
   const [total, setTotal] = useState(totalCount);
   const [searchTerm, setSearchTerm] = useState("");
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Calculate time-based stats
   const now = new Date();
@@ -114,7 +119,7 @@ export default function RecentPhotosTableClient({
     setPage(1);
   };
 
-  if (loading && data.length === 0) {
+  if (!mounted || (loading && data.length === 0)) {
     return (
       <div className="space-y-6">
         <Card>

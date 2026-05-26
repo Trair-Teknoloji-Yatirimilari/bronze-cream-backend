@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma";
-import dynamic from "next/dynamic";
+import RecentPhotosTableClient from "./RecentPhotosTableClient";
 import type { Products, UploadedImg, User } from "@/lib/generated/prisma";
 import { RecentPhotos } from "./columns";
 import {
@@ -11,11 +11,6 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { cookies } from "next/headers";
-
-const RecentPhotosTableClient = dynamic(() => import("./RecentPhotosTableClient"), {
-  ssr: false,
-  loading: () => <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div></div>,
-});
 
 const PAGE_SIZE = 20; // Son fotoğraflar için daha fazla gösterelim
 
