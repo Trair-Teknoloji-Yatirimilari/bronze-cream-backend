@@ -15,7 +15,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Smartphone, Monitor, Globe } from "lucide-react";
 
