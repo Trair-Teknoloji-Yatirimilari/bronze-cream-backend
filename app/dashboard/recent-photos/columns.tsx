@@ -148,7 +148,7 @@ export const columns: ColumnDef<RecentPhotos>[] = [
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   target.onerror = null;
-                  target.src = "/placeholder-image.png";
+                  target.style.display = "none";
                 }}
               />
             ) : (
