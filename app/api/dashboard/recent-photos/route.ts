@@ -52,7 +52,7 @@ export async function GET(req: NextRequest) {
     // Sonuçları frontend'in beklediği şekilde dönüştür
     const result = data.map((item) => ({
       id: item.id,
-      img: item.url,
+      img: item.url.startsWith("http") ? item.url : `https://bronze-api.trair.com.tr${item.url}`,
       device: item.user?.deviceBrand || "-",
       productName: item.product?.name || null,
       isPublic: item.isPublic,
