@@ -46,20 +46,8 @@ function mapToRecentPhotos(item: UploadedImg & { user: User | null, product: Pro
       productName: item.product?.name || null,
       productId: item.productId || null,
       isPublic: item.isPublic,
-      createdAt: item.createdAt.toLocaleDateString("tr-TR", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-      uploadTime: item.createdAt.toLocaleString("tr-TR", {
-        day: "2-digit",
-        month: "2-digit", 
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
+      createdAt: item.createdAt.toISOString(),
+      uploadTime: item.createdAt.toISOString(),
       isActive: !item.isDeleted && !item.isHidden,
       // Device bilgileri - doğru field mapping
       deviceBrand: user?.deviceBrand || null,
@@ -99,7 +87,6 @@ export default async function RecentPhotosPage() {
   });
 
   const data = recentPhotos.map(mapToRecentPhotos);
-  console.log(data);
 
   return (
     <div className="min-h-screen  w-full h-full">

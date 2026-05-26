@@ -118,24 +118,16 @@ const getTimeAgo = (uploadTime: string) => {
   return `${Math.floor(diffHours / 24)} gün önce`;
 };
 
-console.log('RecentPhotosTable columns.tsx YÜKLENDİ');
-
 export const columns: ColumnDef<RecentPhotos>[] = [
   {
     accessorKey: "img",
     header: "Fotoğraf",
     cell: ({ row }) => {
-      console.log('Cell fonksiyonu ÇALIŞTI');
       const imgUrl = String(row.getValue("img"));
       const isActive = row.original.isActive;
       const isPublic = row.original.isPublic;
       const uploadTime = row.original.uploadTime;
       const timeAgo = getTimeAgo(uploadTime);
-      if (typeof window !== 'undefined') {
-        console.log('CLIENT imgUrl:', imgUrl);
-      } else {
-        console.log('SERVER imgUrl:', imgUrl);
-      }
       const isImgValid = imgUrl && imgUrl !== 'null' && imgUrl !== 'undefined';
       return (
         <div className="relative group">
@@ -474,6 +466,13 @@ export const columns: ColumnDef<RecentPhotos>[] = [
     cell: ({ row }) => {
       const uploadTime = row.getValue("uploadTime") as string;
       const timeAgo = getTimeAgo(uploadTime);
+      const formattedDate = new Date(uploadTime).toLocaleString("tr-TR", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
 
       return (
         <TooltipProvider>
@@ -484,7 +483,7 @@ export const columns: ColumnDef<RecentPhotos>[] = [
                   <Clock className="w-3 h-3 text-blue-500" />
                   {timeAgo}
                 </span>
-                <span className="text-xs text-gray-500">{uploadTime}</span>
+                <span className="text-xs text-gray-500">{formattedDate}</span>
               </div>
             </TooltipTrigger>
             <TooltipContent>
@@ -492,7 +491,7 @@ export const columns: ColumnDef<RecentPhotos>[] = [
                 <div className="font-medium mb-1">Yüklenme Detayı</div>
                 <div className="space-y-1 text-xs">
                   <div>
-                    <span className="font-medium">Tam Tarih:</span> {uploadTime}
+                    <span className="font-medium">Tam Tarih:</span> {formattedDate}
                   </div>
                   <div>
                     <span className="font-medium">Geçen Süre:</span> {timeAgo}
