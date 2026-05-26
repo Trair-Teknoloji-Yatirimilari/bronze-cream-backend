@@ -132,7 +132,7 @@ export default async function Page() {
   async function getStatistics(): Promise<NewStatisticsResponse | null> {
     "use server";
     try {
-      const baseUrl = process.env.API_URL || "https://eda.atakaneliz.info";
+      const baseUrl = process.env.API_URL || "https://bronze-api.trair.com.tr";
       const response = await fetch(`${baseUrl}/api/dashboard/statistics`, {
         headers: {
           Authorization: `Bearer ${token}`,

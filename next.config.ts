@@ -18,11 +18,6 @@ const nextConfig: NextConfig = {
         hostname: "bronze-api.trair.com.tr",
         pathname: "/**",
       },
-      {
-        protocol: "https",
-        hostname: "eda.atakaneliz.info",
-        pathname: "/**",
-      },
     ],
   },
 };

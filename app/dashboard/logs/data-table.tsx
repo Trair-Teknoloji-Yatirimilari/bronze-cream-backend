@@ -94,7 +94,7 @@ export function DataTable<TData, TValue>({
                       {cell.column.id === "uploadedImgUrl" ? (
                         (() => {
                           const url = cell.getValue() as string;
-                          if (url === "Yok" || url === "Fotoğraf yok") {
+                          if (url === "Yok" || url === "Fotoğraf yok" || !url || url === "null" || url === "undefined") {
                             return (
                               <div className="flex items-center justify-center">
                                 <Badge variant="outline" className="text-xs text-muted-foreground">
@@ -103,16 +103,18 @@ export function DataTable<TData, TValue>({
                               </div>
                             );
                           }
+                          const finalUrl = url.startsWith("http") ? url : `https://bronze-api.trair.com.tr${url.startsWith("/") ? url : `/filtered/${url}`}`;
                           return (
                             <div className="flex items-center justify-center">
-                              <Image
-                                src={'https://eda.atakaneliz.info'+url}
+                              <img
+                                src={finalUrl}
                                 alt="upload"
-                                width={100}
-                                height={100}
-                                className="w-12 h-12 object-cover rounded-lg border shadow-sm"
+                                className="w-12 h-12 object-cover rounded-lg border shadow-sm cursor-pointer"
                                 onClick={() => {
-                                  window.open('https://eda.atakaneliz.info'+url, '_blank');
+                                  window.open(finalUrl, '_blank');
+                                }}
+                                onError={(e) => {
+                                  (e.target as HTMLImageElement).style.display = "none";
                                 }}
                               />
                             </div>

@@ -159,7 +159,7 @@ export const columns: ColumnDef<Logs>[] = [
     header: "Yüklenen Fotoğraf",
     cell: ({ row }) => {
       const url = String(row.getValue("uploadedImgUrl"));
-      if (url === "Yok") {
+      if (url === "Yok" || !url || url === "null" || url === "undefined") {
         return (
           <Badge
             variant="outline"
@@ -169,7 +169,7 @@ export const columns: ColumnDef<Logs>[] = [
           </Badge>
         );
       }
-      const finalUrl = url.startsWith("http") ? url : `/filtered/${url}`;
+      const finalUrl = url.startsWith("http") ? url : `https://bronze-api.trair.com.tr${url.startsWith("/") ? url : `/filtered/${url}`}`;
       return (
         <div className="flex items-center gap-2">
           <img
