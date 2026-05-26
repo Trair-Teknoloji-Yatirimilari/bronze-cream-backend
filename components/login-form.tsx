@@ -163,11 +163,16 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
             onSubmit={handleSubmit}
           >
             <div className="space-y-2 text-center">
+              <img
+                src="/btb-logo.png"
+                alt="Born To Bronze"
+                className="h-12 mx-auto mb-4 object-contain"
+              />
               <h1 className="text-3xl font-bold tracking-tight">
                 Tekrar Hoşgeldin
               </h1>
               <p className="text-muted-foreground">
-                Bronzify yönetim paneline giriş yapın
+                Born To Bronze yönetim paneline giriş yapın
               </p>
             </div>
 
@@ -295,7 +300,11 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
             <div className="absolute inset-0 bg-gradient-to-br from-amber-100 via-yellow-50 to-white" />
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="text-center text-neutral-800 space-y-4 p-8">
-                <h2 className="text-2xl font-bold">Born To Bronze</h2>
+                <img
+                  src="/btb-logo.png"
+                  alt="Born To Bronze"
+                  className="h-20 mx-auto object-contain"
+                />
                 <p className="text-lg opacity-80">
                   Yönetim Paneli — Eda Taşpınar
                 </p>

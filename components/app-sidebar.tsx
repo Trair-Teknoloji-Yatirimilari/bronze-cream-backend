@@ -59,12 +59,12 @@ export async function AppSidebar({
 
   return (
     <Sidebar {...props}>
-      <SidebarHeader className="flex flex-col items-center justify-center">
+      <SidebarHeader className="flex flex-col items-center justify-center p-4">
         <Image
-          src="/next.svg"
-          alt="logo"
-          width={100}
-          height={100}
+          src="/btb-logo.png"
+          alt="Born To Bronze"
+          width={150}
+          height={80}
           className="object-contain"
         />
       </SidebarHeader>
